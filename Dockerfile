@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL description="ubuntu with ssh and vnc" \
       author="wenkb" \
@@ -20,10 +20,13 @@ WORKDIR /root
 # change root password
 RUN echo "root:$ROOT_PW" | chpasswd
 
+ADD etc-apt-sources.list-20.04-aliyun /etc/apt/sources.list
+RUN apt-get update && apt-get upgrade
+
 # install software
 RUN apt-get -y update \
  # tools
- && apt-get install -y wget net-tools locales bzip2 iputils-ping traceroute firefox firefox-locale-zh-hans ttf-wqy-microhei gedit ibus-pinyin \
+ && apt-get install -y build-essential wget net-tools locales bzip2 iputils-ping traceroute firefox firefox-locale-zh-hans ttf-wqy-microhei ibus-pinyin \
  && locale-gen zh_CN.UTF-8 \
  # ssh
  && apt-get install -y openssh-server \
@@ -39,12 +42,6 @@ RUN apt-get -y update \
  # xfce
  && apt-get install -y xfce4 xfce4-terminal \
  && apt-get purge -y pm-utils xscreensaver* \
- # sublime text 3
- && wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add - \
- && apt-get install -y apt-transport-https \
- && echo "deb https://download.sublimetext.com/ apt/stable/" | tee /etc/apt/sources.list.d/sublime-text.list \
- && apt-get -y update \
- && apt-get -y install sublime-text \
  # clean
  && apt-get -y clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
