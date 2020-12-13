@@ -26,7 +26,7 @@ RUN apt-get update && apt-get upgrade
 # install software
 RUN apt-get -y update \
  # tools
- && apt-get install -y build-essential wget net-tools locales bzip2 iputils-ping traceroute firefox firefox-locale-zh-hans ttf-wqy-microhei ibus-pinyin \
+ && apt-get install -y build-essential vim wget net-tools locales bzip2 iputils-ping traceroute firefox firefox-locale-zh-hans ttf-wqy-microhei ibus-pinyin \
  && locale-gen zh_CN.UTF-8 \
  # ssh
  && apt-get install -y openssh-server \
